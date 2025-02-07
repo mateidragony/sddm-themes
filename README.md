@@ -8,12 +8,12 @@ Just a collection of the sddm themes I wrote because they're goofy and fun. Feel
 
 <table>
     <tr>
-        <td style="text-align: center; font-weight: bold;"><img src="./this-is-computer/preview.png" width="247"></td>
+        <td><img src="./this-is-computer/preview.png" width="247"></td>
         <td><img src="placeholder.png" width="247"></td>
         <td><img src="placeholder.png" width="247"></td>
     </tr>
     <tr>
-        <td><a href="./this-is-computer/">This is a computer</a></td>
+        <td style="text-align: center; font-weight: bold;"><a href="./this-is-computer/">This is a computer</a></td>
         <td></td>
         <td></td>
     </tr>
