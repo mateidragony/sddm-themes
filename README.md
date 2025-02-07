@@ -6,16 +6,9 @@ Just a collection of the sddm themes I wrote because they're goofy and fun. Feel
 
 ## 🎨 The themes
 
-<style>
-    td {
-        text-align: center;
-        font-weight: bold;
-    }
-</style>
-
 <table>
     <tr>
-        <td><img src="./this-is-computer/preview.png" width="247"></td>
+        <td style="text-align: center; font-weight: bold;"><img src="./this-is-computer/preview.png" width="247"></td>
         <td><img src="placeholder.png" width="247"></td>
         <td><img src="placeholder.png" width="247"></td>
     </tr>
