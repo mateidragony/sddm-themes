@@ -1,16 +1,13 @@
 [SddmGreeterTheme]
-Name=WarGames
-Description=WarGames Theme
-Author=Pentad
-Copyright=
-License=CC-BY-SA
+Name=this-is-computer
+Description=This is a computer.
+Author=mateidragony
 Type=sddm-theme
 Version=1.0
-Website=https://store.kde.org/u/pentad
+Website=https://github.com/mateidragony/sddm-themes
 Screenshot=preview.png
 MainScript=Main.qml
 ConfigFile=theme.conf
-TranslationsDirectory=translations
-Email=markhart@outlook.com
-Theme-Id=WarGames
+Email=matei.cloteaux@gmail.com
+Theme-Id=this-is-computer
 Theme-API=2.0

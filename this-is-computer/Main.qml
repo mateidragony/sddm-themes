@@ -6,10 +6,6 @@ import "./Components"
 
 Rectangle {
     id : container
-    LayoutMirroring.enabled : Qt.locale().textDirection == Qt.RightToLeft
-    LayoutMirroring.childrenInherit : true
-    color : doscolor
-    anchors.fill : parent
 
     property int sessionIndex : session.index
 
@@ -25,19 +21,17 @@ Rectangle {
     property int defaultcharwidth : 8 * defaultscale
     property int defaultcharheight : 8 * defaultscale
 
-    property string doscolor  : "#ffffff"
-    property string dosblack  : "#000000"
-    property string linkColor: "#71d1e9" 
-    property string hoverLinkColor: "#77f1be" 
-    property string pressLinkColor: "#48ff00"
-
+    property string foregroundColor  : config.foregroundColor ? config.foregroundColor : "#ffffff"
+    property string backgroundColor  : config.backgroundColor ? config.backgroundColor : "#000000"
+    property string linkColor        : config.linkColor       ? config.linkColor       : "#71d1e9" 
+    property string hoverLinkColor   : config.hoverLinkColor  ? config.hoverLinkColor  : "#77f1be" 
+    property string pressLinkColor   : config.pressLinkColor  ? config.pressLinkColor  : "#48ff00"
 
     //Background Settings
     property string borderimage : "./Background.png"
 
-
     //FONT SECTION (1 px = .75 pt)
-    property string fontstyle : "TerminusTTF-4.49.3.ttf"
+    property string fontstyle : "./fonts/TerminusTTF-4.49.3.ttf"
     property int dosfontsize : 20 * defaultscale
     property int welcomefontsize : 40 * defaultscale
     property int welcomefontsize2 : 20 * defaultscale
@@ -65,15 +59,13 @@ Rectangle {
     property int passwordleftpadding : 150 * defaultscale
 
     //COMBOBOX
-    property string comboboxcolor : dosblack
-    property string comboboxbordercolor : dosblack
-    property string comboboxhovercolor : dosblack
-    property string comboboxfocuscolor : dosblack
-    property string comboboxtextcolor : doscolor
-    property string comboboxmenucolor : dosblack
+    property string comboboxcolor : backgroundColor
+    property string comboboxbordercolor : backgroundColor
+    property string comboboxhovercolor : backgroundColor
+    property string comboboxfocuscolor : backgroundColor
+    property string comboboxtextcolor : foregroundColor
+    property string comboboxmenucolor : backgroundColor
     property string comboboxarrowcolor : "transparent"
-    property string comboboximage : "./Arrow.svg"
-
 
     //Set Scale
     function setdefaultScale() {
@@ -87,6 +79,11 @@ Rectangle {
 
         return setscale
     }
+
+    LayoutMirroring.enabled : Qt.locale().textDirection == Qt.RightToLeft
+    LayoutMirroring.childrenInherit : true
+    anchors.fill : parent
+    color: backgroundColor
 
 
     FontLoader {
@@ -108,17 +105,6 @@ Rectangle {
         }
     }
 
-    Background {
-        anchors.fill: parent
-        source: borderimage
-        fillMode: Image.Stretch
-        onStatusChanged: {
-            if (status == Image.Error && source != config.defaultBackground) {
-                source = config.defaultBackground
-            }
-        }
-    }
-
     // everything
     Column {
         leftPadding: 150
@@ -131,7 +117,7 @@ Rectangle {
             spacing: 15
 
             Text {
-                    color : doscolor
+                    color : foregroundColor
                     text : "You are using a computer."
                     font.family : loginfont.name
                     font.pointSize : welcomefontsize
@@ -143,7 +129,7 @@ Rectangle {
                 leftPadding: 5
 
                 Text {
-                    color : doscolor
+                    color : foregroundColor
                     text : "Was this not your intended goal?"
                     font.family : loginfont.name
                     font.pointSize : welcomefontsize2
@@ -152,6 +138,8 @@ Rectangle {
                 }
 
                 TextButton {
+                    id: leaveButton
+
                     label: "Leave."
                     size: welcomefontsize2
                     fontFamily : loginfont.name
@@ -159,6 +147,9 @@ Rectangle {
                     labelColor: linkColor
                     hoverLabelColor: hoverLinkColor
                     pressLabelColor: pressLinkColor
+
+                    KeyNavigation.backtab : loginButton
+                    KeyNavigation.tab : username
 
                     onClicked : sddm.powerOff()
                 }
@@ -178,7 +169,7 @@ Rectangle {
 
                     verticalAlignment: Text.AlignVCenter
 
-                    color : doscolor
+                    color : foregroundColor
                     text : "Username:"
                     font.family : loginfont.name
                     font.pointSize : dosfontsize
@@ -198,13 +189,13 @@ Rectangle {
                     width : textinputwidth
                     height : textinputheight
 
-                    color : doscolor
+                    color : foregroundColor
 
                     font.family : loginfont.name
                     font.pointSize : dosfontsize
 
-                    KeyNavigation.backtab : username
-                    KeyNavigation.tab : loginButton
+                    KeyNavigation.backtab : leaveButton
+                    KeyNavigation.tab : password
                     Keys.onPressed : {
                         if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
                             password.focus = true
@@ -224,7 +215,7 @@ Rectangle {
                 height : textinputheight
 
                 Text {
-                    color : doscolor
+                    color : foregroundColor
             
                     font.family : loginfont.name
                     font.pointSize : dosfontsize
@@ -238,7 +229,7 @@ Rectangle {
                 TextInput {
                     id : password
 
-		    focus: userModel.lastUser == "" ? false : true
+		            focus: userModel.lastUser == "" ? false : true
 
                     leftPadding : textinputpadding
 
@@ -247,7 +238,7 @@ Rectangle {
                     width : textinputwidth
                     height : textinputheight
 
-                    color : doscolor
+                    color : foregroundColor
 
                     font.family : loginfont.name
                     font.pointSize : dosfontsize
@@ -256,7 +247,7 @@ Rectangle {
                     passwordCharacter : "*"
                     
                     KeyNavigation.backtab : username
-                    KeyNavigation.tab : loginButton
+                    KeyNavigation.tab : session
                     Keys.onPressed : {
                         if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
                             sddm.login(username.text, password.text, sessionIndex)
@@ -280,7 +271,7 @@ Rectangle {
 
                     verticalAlignment: Text.AlignVCenter
 
-                    color : doscolor
+                    color : foregroundColor
                     text : "Session: "
                     font.family : loginfont.name
                     font.pointSize : dosfontsize
@@ -298,7 +289,7 @@ Rectangle {
                     borderColor : comboboxbordercolor
                     hoverColor : comboboxhovercolor
                     focusColor : comboboxfocuscolor
-                    textColor : doscolor
+                    textColor : foregroundColor
                     menuColor : comboboxmenucolor
                     arrowColor: comboboxarrowcolor
 
@@ -306,12 +297,12 @@ Rectangle {
                     font.pointSize : dosfontsize
                     font.family : loginfont.name
 
-                    arrowIcon : comboboximage
 
                     model : sessionModel
                     index : model.lastIndex
 
-                    KeyNavigation.tab : password
+                    KeyNavigation.backtab : password
+                    KeyNavigation.tab : loginButton
                     Keys.onPressed : {
                         if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
                             password.focus = true
@@ -323,23 +314,26 @@ Rectangle {
         }
 
 
-	Row {
-	    leftPadding: 5
-	    
-	    TextButton {
-            id : loginButton
+        Row {
+            leftPadding: 5
+            
+            TextButton {
+                id : loginButton
 
-            label: "Login"
-            size: dosfontsize
-            fontFamily : loginfont.name
+                label: "Login"
+                size: dosfontsize
+                fontFamily : loginfont.name
 
-            labelColor: linkColor
-            hoverLabelColor: hoverLinkColor
-            pressLabelColor: pressLinkColor
+                labelColor: linkColor
+                hoverLabelColor: hoverLinkColor
+                pressLabelColor: pressLinkColor
 
-            onClicked : sddm.login(username.text, password.text, sessionIndex)
+                KeyNavigation.backtab : session
+                KeyNavigation.tab : leaveButton
+
+                onClicked : sddm.login(username.text, password.text, sessionIndex)
             }
-	}
+        }
     }
 }
 
